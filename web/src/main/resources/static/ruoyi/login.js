@@ -1,12 +1,43 @@
-
+ctx = "http://localhost:8080"
 $(function() {
 	validateKickout();
-    validateRule();
-	$('.imgcode').click(function() {
-		var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
-		$(".imgcode").attr("src", url);
-	});
+    //validateRule();
+	// $('.imgcode').click(function() {
+	// 	var url = ctx + "captcha/captchaImage?type=" + captchaType + "&s=" + Math.random();
+	// 	$(".imgcode").attr("src", url);
+	// });
+    getCaptcha();
+
+    $('#btnSubmit').on('click' ,function (e) {
+        submitLogin();
+    })
+
 });
+
+function getCaptcha(){
+    $.ajax({
+        type: "get",
+        url: ctx + "/captcha/getCaptcha",
+        success: function(r) {
+            if (r.code == 200) {
+                var image = r.data.image;
+                var uuid = r.data.uuid;
+                $('#uuid').val(uuid);
+                $('.imgcode').attr('src', "data:image/gif;base64,"+ image);
+            } else {
+                var msg = r.data.msg;
+                layer.alert("<font color='red'>"+msg+"</font>", {
+                        icon: 0,
+                        title: "系统提示"
+                    },
+                    function(index) {
+                        //关闭弹窗
+                        layer.close(index);
+                    });
+            }
+        }
+    });
+}
 
 $.validator.setDefaults({
     submitHandler: function() {
@@ -14,24 +45,28 @@ $.validator.setDefaults({
     }
 });
 
-function login() {
-	$.modal.loading($("#btnSubmit").data("loading"));
+function submitLogin() {
+	//$.modal.loading($("#btnSubmit").data("loading"));
 	var username = $.common.trim($("input[name='username']").val());
     var password = $.common.trim($("input[name='password']").val());
     var validateCode = $("input[name='validateCode']").val();
     var rememberMe = $("input[name='rememberme']").is(':checked');
+    var uuid = $('#uuid').val();
+    var param = {
+        "username": username,
+        "password": password,
+        "validateCode": validateCode,
+        "rememberMe": rememberMe,
+        "uuid":uuid
+    };
     $.ajax({
         type: "post",
-        url: ctx + "login",
-        data: {
-            "username": username,
-            "password": password,
-            "validateCode": validateCode,
-            "rememberMe": rememberMe
-        },
+        url: ctx + "/login",
+        dataType: "json",
+        data: param,
         success: function(r) {
-            if (r.code == 0) {
-                location.href = ctx + 'index';
+            if (r.code == 200) {
+                location.href = ctx + '/index';
             } else {
             	$.modal.closeLoading();
             	$('.imgcode').click();

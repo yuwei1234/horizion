@@ -9,17 +9,13 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-
     <groupId>com.msb.cn</groupId>
     <artifactId>web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>web</name>
     <description>Demo project for Spring Boot</description>
 
-
-
     <dependencies>
-
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -27,7 +23,7 @@
         <version>2.3.0.RELEASE</version>
     </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -47,6 +43,23 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.msb.cn</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.msb.cn</groupId>
+            <artifactId>service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.msb.cn</groupId>
+            <artifactId>framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
